@@ -72,7 +72,8 @@ arrTopElement.forEach((topElementsContainer) => {
 });
 
 render(siteStatisticElement, createStatisticTemplate(), 'beforeend');
+render(siteFooterElement, createPopupTemplate(films[0]), 'afterend');
 
-films.forEach((item) => {
+/*films.forEach((item) => {
   render(siteFooterElement, createPopupTemplate(item), 'afterend');
-});
+});*/
