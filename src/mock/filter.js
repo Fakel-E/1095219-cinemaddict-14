@@ -11,3 +11,4 @@ export const generateFilter = (films) => {
     count: countFilms(films),
   }));
 };
+

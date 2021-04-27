@@ -1,5 +1,6 @@
-import {humanizeDate} from '../util';
-import {humanizeDateComment} from '../util';
+import {humanizeDate} from '../utils';
+import {humanizeDateComment} from '../utils';
+import {createElement} from '../utils';
 
 
 const renderComment = ({emoji, text, author, date}) => {
@@ -35,8 +36,25 @@ const renderFilmControlsTeamplate = (list, history, favorit) => {
   `);
 };
 
-export const createPopupTemplate = (film) => {
-  const {name, poster, description, rate, date, runtime, genre, originalName, director, writers, actors, country, ageLimit, comments, isWatchlist, isWatched, isFavorite} = film;
+const createPopupTemplate = (film) => {
+  const {
+    name,
+    poster,
+    description,
+    rate,
+    date,
+    runtime,
+    genre,
+    originalName,
+    director,
+    writers,
+    actors,
+    country,
+    ageLimit,
+    comments,
+    isWatchlist,
+    isWatched,
+    isFavorite} = film;
 
   const templateComment = comments.map((comment) => renderComment(comment)).join('');
   const templateGenre = genre.map((genres) => `<span class="film-details__genre">${(genres)}</span>`).join('');
@@ -140,3 +158,26 @@ export const createPopupTemplate = (film) => {
   </section>`
   );
 };
+
+export default class Popup {
+  constructor(films) {
+    this._films = films;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createPopupTemplate(this._films);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
