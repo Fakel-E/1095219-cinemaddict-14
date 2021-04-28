@@ -13,6 +13,8 @@ import {generateFilm} from './mock/film.js';
 import {generateFilter} from './mock/filter.js';
 import {render, RenderPosition} from './utils.js';
 
+const {BEFOREEND} = RenderPosition;
+
 const FILM_COUNT = 20;
 const FILM_TOP = 2;
 const FILM_PER_STEP = 5;
@@ -25,10 +27,10 @@ const siteMainElement = document.querySelector('.main');
 //const siteFooterElement = document.querySelector('.footer');
 const siteStatisticElement = document.querySelector('.footer__statistics');
 
-render(siteHeaderElement, new ProfileView().getElement(), RenderPosition.BEFOREEND);
-render(siteMainElement, new SiteMenuView(filters).getElement(), RenderPosition.BEFOREEND);
-render(siteMainElement, new SortMenuView().getElement(), RenderPosition.BEFOREEND);
-render(siteMainElement, new FilmTemplateView().getElement(), RenderPosition.BEFOREEND);
+render(siteHeaderElement, new ProfileView().getElement(), BEFOREEND);
+render(siteMainElement, new SiteMenuView(filters).getElement(), BEFOREEND);
+render(siteMainElement, new SortMenuView().getElement(), BEFOREEND);
+render(siteMainElement, new FilmTemplateView().getElement(), BEFOREEND);
 
 const filmTemplate = document.querySelector('.films');
 const siteFilmContainer = filmTemplate.querySelector('.films-list');
@@ -48,6 +50,7 @@ const renderFilmCard = (container, films) => {
       document.body.removeChild(popupView.getElement());
       popupView.removeElement();
       document.body.classList.remove('hide-overflow');
+      buttonClose.removeEventListener('click', filmCardClickHandler);
     });
   };
 
@@ -55,18 +58,15 @@ const renderFilmCard = (container, films) => {
   filmCardComponent.querySelector('.film-card__title').addEventListener('click', filmCardClickHandler);
   filmCardComponent.querySelector('.film-card__comments').addEventListener('click', filmCardClickHandler);
 
-  render(container, filmCardComponent, RenderPosition.BEFOREEND);
+  render(container, filmCardComponent, BEFOREEND);
 };
 
 films.slice(0, FILM_PER_STEP).forEach((film) => renderFilmCard(filmCardContainer, film));
 
-if (films.length > FILM_PER_STEP) {
+const moreBtnListner = (component) => {
   let renderedTaskCount = FILM_PER_STEP;
 
-  const loadMoreButtonComponent = new ButtonMoreView();
-  render(siteFilmContainer, loadMoreButtonComponent.getElement(), RenderPosition.BEFOREEND);
-
-  loadMoreButtonComponent.getElement().addEventListener('click', (evt) => {
+  component.getElement().addEventListener('click', (evt) => {
     evt.preventDefault();
     films
       .slice(renderedTaskCount, renderedTaskCount + FILM_PER_STEP)
@@ -75,20 +75,29 @@ if (films.length > FILM_PER_STEP) {
     renderedTaskCount += FILM_PER_STEP;
 
     if (renderedTaskCount >= films.length) {
-      loadMoreButtonComponent.getElement().remove();
-      loadMoreButtonComponent.removeElement();
+      component.getElement().remove();
+      component.removeElement();
     }
+    component.getElement().removeEventListener('click', moreBtnListner);
   });
+};
+
+if (films.length > FILM_PER_STEP) {
+
+  const loadMoreButtonComponent = new ButtonMoreView();
+  render(siteFilmContainer, loadMoreButtonComponent.getElement(), BEFOREEND);
+
+  moreBtnListner(loadMoreButtonComponent);
 }
 
-render(filmTemplate, new TopRatedView().getElement(), RenderPosition.BEFOREEND);
-render(filmTemplate, new TopCommentView().getElement(), RenderPosition.BEFOREEND);
+render(filmTemplate, new TopRatedView().getElement(), BEFOREEND);
+render(filmTemplate, new TopCommentView().getElement(), BEFOREEND);
 const arrTopElement = document.querySelectorAll('.films-list--extra');
 
 arrTopElement.forEach((topElementsContainer) => {
   for (let k = 0; k < FILM_TOP; k++) {
-    render(topElementsContainer.querySelector('.films-list__container'), new FilmCardView(films[k]).getElement(), RenderPosition.BEFOREEND);
+    render(topElementsContainer.querySelector('.films-list__container'), new FilmCardView(films[k]).getElement(), BEFOREEND);
   }
 });
 
-render(siteStatisticElement, new StatisticView().getElement(), RenderPosition.BEFOREEND);
+render(siteStatisticElement, new StatisticView().getElement(), BEFOREEND);
