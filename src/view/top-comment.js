@@ -1,4 +1,4 @@
-import {createElement} from '../utils';
+import AbstractView from './abstract.js';
 
 const createTopCommentTemplate = () => {
   return (
@@ -9,24 +9,9 @@ const createTopCommentTemplate = () => {
     </section>`
   );
 };
-export default class TopComment {
-  constructor() {
-    this._element = null;
-  }
+export default class TopComment extends AbstractView {
 
   getTemplate() {
     return createTopCommentTemplate();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
