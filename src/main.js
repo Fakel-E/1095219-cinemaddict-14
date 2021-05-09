@@ -68,14 +68,18 @@ const renderFilmCard = (container, films) => {
     document.addEventListener('keydown', buttonEscKeydownHandler);
   };
 
-  filmCardComponent.querySelector('.film-card__poster').addEventListener('click', filmCardClickHandler);
-  filmCardComponent.querySelector('.film-card__title').addEventListener('click', filmCardClickHandler);
-  filmCardComponent.querySelector('.film-card__comments').addEventListener('click', filmCardClickHandler);
+  const addClickHandler = (element) => {
+    element.querySelector('.film-card__poster').addEventListener('click', filmCardClickHandler);
+    element.querySelector('.film-card__title').addEventListener('click', filmCardClickHandler);
+    element.querySelector('.film-card__comments').addEventListener('click', filmCardClickHandler);
+  };
+
+  addClickHandler(filmCardComponent);
 
   render(container, filmCardComponent, BEFOREEND);
 };
 
-const moreBtnListner = (component) => {
+const showMoreFilms = (component) => {
   let renderedTaskCount = FILM_PER_STEP;
 
   component.setClickHandler(() => {
@@ -88,7 +92,7 @@ const moreBtnListner = (component) => {
     if (renderedTaskCount >= films.length) {
       remove(component);
     }
-    component.getElement().removeEventListener('click', moreBtnListner);
+    component.getElement().removeEventListener('click', showMoreFilms);
   });
 };
 
@@ -101,17 +105,17 @@ if (films.length === 0) {
 }
 
 if (films.length > FILM_PER_STEP) {
-
   const loadMoreButtonComponent = new ButtonMoreView();
   render(siteFilmContainer, loadMoreButtonComponent, BEFOREEND);
-  moreBtnListner(loadMoreButtonComponent);
+  showMoreFilms(loadMoreButtonComponent);
 }
 
 const arrTopElement = document.querySelectorAll('.films-list--extra');
 
 arrTopElement.forEach((topElementsContainer) => {
+  const topFilmContainer = topElementsContainer.querySelector('.films-list__container');
   for (let k = 0; k < FILM_TOP; k++) {
-    render(topElementsContainer.querySelector('.films-list__container'), new FilmCardView(films[k]), BEFOREEND);
+    renderFilmCard(topFilmContainer, films[k]);
   }
 });
 
