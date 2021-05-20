@@ -28,7 +28,6 @@ export default class FilmCard {
 
   init(film) {
     this._film = film;
-    console.log(this._film);
 
     const prevFilmCardView = this._view;
     const prevPopupView = this._popupView;
