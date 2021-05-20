@@ -35,13 +35,13 @@ export default class FilmCard {
     this._view = new FilmCardView(film);
     this._popupView = new PopupView(film);
 
-    //this._view.setPosterClickHandler(this._handleViewClick);
-    //this._view.setTitleClickHandler(this._handleViewClick);
-    //this._view.setCommentsClickHandler(this._handleViewClick);
+    this._view.setPosterClickHandler(this._handleViewClick);
+    this._view.setTitleClickHandler(this._handleViewClick);
+    this._view.setCommentsClickHandler(this._handleViewClick);
 
-    //this._view.setWatchlistClickHandler(this._handleWatchlistClick);
-    //this._view.setFavoriteClickHandler(this._handleFavoriteClick);
-    //this._view.setWatchedClickHandler(this._handleWatchedClick);
+    this._view.setWatchlistClickHandler(this._handleWatchlistClick);
+    this._view.setFavoriteClickHandler(this._handleFavoriteClick);
+    this._view.setWatchedClickHandler(this._handleWatchedClick);
 
     this._setPopupEventListeners();
 
@@ -75,10 +75,10 @@ export default class FilmCard {
   }
 
   _setPopupEventListeners() {
-    //this._popupView.setWatchlistClickHandler(this._handleWatchlistClick);
-    //this._popupView.setFavoriteClickHandler(this._handleFavoriteClick);
-    //this._popupView.setWatchedClickHandler(this._handleWatchedClick);
-    //this._popupView.setCloseButtonClickHandler(this._handlePopupCloseButtonClick);
+    this._popupView.setWatchlistClickHandler(this._handleWatchlistClick);
+    this._popupView.setFavoriteClickHandler(this._handleFavoriteClick);
+    this._popupView.setWatchedClickHandler(this._handleWatchedClick);
+    this._popupView.setCloseButtonClickHandler(this._handlePopupCloseButtonClick);
   }
 
   _handleViewClick() {
