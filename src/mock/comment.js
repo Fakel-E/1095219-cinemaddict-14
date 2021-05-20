@@ -19,9 +19,12 @@ const COMMENT_AUTHOR = [
   'Flin',
 ];
 
+let commentId = 0;
+
 export const generateComment = () => {
 
   return {
+    id: commentId++,
     emoji: generateRandom(COMMENT_EMOJI),
     text: generateRandom(COMMENT_TEXT),
     author: generateRandom(COMMENT_AUTHOR),

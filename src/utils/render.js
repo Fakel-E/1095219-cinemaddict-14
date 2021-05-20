@@ -5,7 +5,7 @@ export const RenderPosition = {
   BEFOREEND: 'beforeend',
 };
 
-export const render = (container, child, place) => {
+/*export const render = (container, child, place) => {
   if (container instanceof Abstract) {
     container = container.getElement();
   }
@@ -22,6 +22,27 @@ export const render = (container, child, place) => {
       container.append(child);
       break;
   }
+};*/
+
+export const render = (container, element, place = RenderPosition.BEFOREEND) => {
+  if (container instanceof Abstract) {
+    container = container.getElement();
+  }
+
+  if (element instanceof Abstract) {
+    element = element.getElement();
+  }
+
+  switch (place) {
+    case RenderPosition.AFTERBEGIN:
+      container.prepend(element);
+      break;
+    case RenderPosition.BEFOREEND:
+      container.append(element);
+      break;
+    default:
+      throw new Error('Unknown insert position selected');
+  }
 };
 
 export const createElement = (template) => {
@@ -31,7 +52,7 @@ export const createElement = (template) => {
   return newElement.firstChild;
 };
 
-/*export const replace = (newChild, oldChild) => {
+export const replace = (newChild, oldChild) => {
   if (oldChild instanceof Abstract) {
     oldChild = oldChild.getElement();
   }
@@ -47,7 +68,7 @@ export const createElement = (template) => {
   }
 
   parent.replaceChild(newChild, oldChild);
-};*/
+};
 
 export const remove = (component) => {
   if (!(component instanceof Abstract)) {

@@ -62,10 +62,13 @@ const FILM_GENRES = [
   'Mystery',
 ];
 
+let filmId = 0;
+
 const generateDescription = () => mixArray(FILM_DESCRIPTIONS);
 
 export const generateFilm = () => {
   return {
+    id: filmId++,
     name: generateRandom(FILM_NAME),
     originalName: generateRandom(FILM_NAME),
     poster: generateRandom(FILM_POSTER),
